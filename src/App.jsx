@@ -31,7 +31,50 @@ function App() {
 
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  const [employees, setEmployees] = useState([1, 2, 3, 4, 5]);
+  const [employees, setEmployees] = useState([
+    { name: "Rick", offDay: ["Sun", "Sat"], offShift: "night " },
+    { name: "Other Person", offDay: ["Sun", "Sat"], offShift: "morning " },
+    { name: "Ms. Shay", offDay: ["Sun", "Sat"], offShift: "night " },
+    { name: "another other", offDay: ["Sun", "Sat"], offShift: "night " },
+    { name: "chris?", offDay: [], offShift: "morning " },
+    { name: "christen", offDay: [], offShift: "night " },
+  ]);
+
+  // Ok start of with 3 example shifts
+  // morning, midday, and night
+  // Each day needs it's own function
+
+  const [sunday, setSunday] = useState({ morning: 2, midday: 3, night: 1 });
+  const [monday, setMonday] = useState({ morning: 3, midday: 5, night: 1 });
+  const [tuesday, setTuesday] = useState({ morning: 3, midday: 4, night: 2 });
+  const [wednesday, setWednesday] = useState({
+    morning: 3,
+    midday: 5,
+    night: 1,
+  });
+  const [thursday, setThursday] = useState({ morning: 3, midday: 5, night: 2 });
+  const [friday, setFriday] = useState({ morning: 3, midday: 3, night: 1 });
+  const [saturday, setSaturday] = useState({ morning: 2, midday: 3, night: 1 });
+
+  function Day(props) {
+    //  Depending on the day of the week will need a certain amount of people for each of the shifts
+
+    return employees.map((employee, idx) => {
+      if (!employee.offDay.includes(props.day)) {
+        return (
+          <div style={{ whiteSpace: "nowrap", fontSize: "1.5rem" }} key={idx}>
+            {employee.name}
+          </div>
+        );
+      } else {
+        return (
+          <div style={{ color: "transparent", fontSize: "1.5rem" }} key={idx}>
+            text
+          </div>
+        );
+      }
+    });
+  }
 
   return (
     <div className="horizontal-calendar">
@@ -53,25 +96,61 @@ function App() {
         </h2>
         <button onClick={() => changeMonth(1)}>Next Month</button>
       </div>
-      <div
-        className="calendar-days"
-        style={{
-          display: "flex",
-          gap: "2em",
-          width: "70vw",
-          overflow: "scroll",
-        }}
-      >
-        {calendarDates.map((date, index) => (
-          <div key={index} className="calendar-day">
-            {/* <div className="month">{date.toLocaleString('default', { month: 'short' })}</div> */}
-            <div className="day">{date.getDate()}</div>
-            <div className="weekday">{daysOfWeek[date.getDay()]}</div>
-            {employees.map((employee) => {
-              return <div>{employee.name}</div>;
-            })}
-          </div>
-        ))}
+      <div style={{ display: "flex" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1.65em",
+            marginRight: "22px",
+            marginTop: "150px",
+            fontSize: "1.5rem",
+            border: "1px solid yellow",
+          }}
+        >
+          {employees.map((employee, idx) => {
+            return (
+              <div
+                key={idx}
+                style={{
+                  whiteSpace: "nowrap",
+                  textAlign: "left",
+                }}
+              >
+                {employee.name}
+              </div>
+            );
+          })}
+        </div>
+        <div
+          className="calendar-days"
+          style={{
+            display: "flex",
+            gap: "5em",
+            width: "70vw",
+            overflow: "scroll",
+            border: " 1px solid red",
+          }}
+        >
+          {calendarDates.map((date, index) => (
+            <div key={index} className="calendar-day">
+              {/* <div className="month">{date.toLocaleString('default', { month: 'short' })}</div> */}
+              <div style={{ fontSize: "2rem", marginBottom: "1em" }}>
+                <div className="day">{date.getDate()}</div>
+                <div className="weekday">{daysOfWeek[date.getDay()]}</div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1.65em",
+                }}
+              >
+                <Day date={date} day={daysOfWeek[date.getDay()]} />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
