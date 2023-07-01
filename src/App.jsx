@@ -101,13 +101,16 @@ function App() {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: "1.65em",
+            gap: "1.2em",
             marginRight: "22px",
-            marginTop: "150px",
             fontSize: "1.5rem",
             border: "1px solid yellow",
           }}
         >
+          <div style={{ fontSize: "1.5rem", marginBottom: "1em" }}>
+            <div className="day">.</div>
+            <div className="weekday">.</div>
+          </div>
           {employees.map((employee, idx) => {
             return (
               <div
